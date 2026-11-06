@@ -1,0 +1,6 @@
+// 定义请求结果接口
+export interface Result<T = any> {
+    code: number
+    msg: string
+    data: T
+}
