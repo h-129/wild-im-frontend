@@ -15,10 +15,34 @@
         </a-input>
       </a-form-item>
 
+      <!-- 2. 昵称 (新增) -->
+      <a-form-item class="mb-0" name="nickname">
+        <!-- 昵称一般允许中文，所以去掉了正则拦截，加了 .trim 防止首尾空格 -->
+        <a-input v-model:value.trim="formState.nickname" :bordered="false"
+                 :maxlength="10"
+                 :placeholder="$t('login.nicknamePlaceholder')" class="minimal-underline-input" show-count>
+          <template #prefix>
+            <IdcardOutlined/>
+          </template>
+        </a-input>
+      </a-form-item>
+
+      <!-- 3. 密码 -->
       <a-form-item class="mb-0" name="password">
         <a-input-password v-model:value="formState.password" :bordered="false"
                           :placeholder="$t('login.passwordPlaceholder')" class="minimal-underline-input"
                           @change="handlePasswordInput">
+          <template #prefix>
+            <LockOutlined/>
+          </template>
+        </a-input-password>
+      </a-form-item>
+
+      <!-- 4. 确认密码 (新增) -->
+      <a-form-item class="mb-0" name="confirmPassword">
+        <a-input-password v-model:value="formState.confirmPassword" :bordered="false"
+                          :placeholder="$t('login.confirmPasswordPlaceholder')" class="minimal-underline-input"
+                          @change="handleConfirmPasswordInput">
           <template #prefix>
             <LockOutlined/>
           </template>
@@ -44,21 +68,57 @@
 </template>
 
 <script lang="ts" setup>
-import {UserOutlined, LockOutlined} from '@ant-design/icons-vue'
+import {UserOutlined, LockOutlined, IdcardOutlined} from '@ant-design/icons-vue'
 import type {Rule} from 'ant-design-vue/es/form'
 import {useAppLocale} from '@/hooks/useAppLocale'
+import type {RegisterRequest} from "@/types/auth";
 
 const {t, locale} = useAppLocale()
 const formRef = ref()
+const initData: RegisterRequest = {
+  username: '',
+  nickname: '',
+  password: '',
+  confirmPassword: ''
+}
+// 1. 扩充表单状态
+const formState = reactive(initData)
 
-const formState = reactive({username: '', password: ''})
-
-const handleUsernameInput = (e: Event) => formState.username = (e.target as HTMLInputElement).value.replace(/[^a-zA-Z0-9_]/g, '')
+// 2. 输入拦截逻辑 (确认密码和密码的规则保持一致)
+const handleUsernameInput = (e: Event) => formState.username = (e.target as HTMLInputElement).value.replace(/[^a-zA-Z0-9]/g, '')
 const handlePasswordInput = (e: Event) => formState.password = (e.target as HTMLInputElement).value.replace(/[\u4e00-\u9fa5\u3000-\u301f\uff00-\uffef\s]/g, '')
+const handleConfirmPasswordInput = (e: Event) => formState.confirmPassword = (e.target as HTMLInputElement).value.replace(/[\u4e00-\u9fa5\u3000-\u301f\uff00-\uffef\s]/g, '')
+// 3. 自定义校验：检查两次密码是否一致
+const validateConfirmPassword = async (_rule: Rule, value: string) => {
+  if (value === '') {
+    return Promise.reject(t('login.confirmPasswordRequired'))
+  } else if (value !== formState.password) {
+    return Promise.reject(t('login.passwordNotMatch'))
+  }
+  return Promise.resolve()
+}
 
+// 4. 扩充校验规则
 const formRules = computed<Record<string, Rule[]>>(() => ({
-  username: [{required: true, message: t('login.usernameRequired'), trigger: 'blur'}],
-  password: [{required: true, message: t('login.passwordRequired'), trigger: 'blur'}]
+  username: [
+    {required: true, message: t('login.usernameRequired'), trigger: 'blur'},
+    {pattern: /^[a-zA-Z0-9]{6,16}$/, message: t('login.usernameFormatInvalid'), trigger: 'blur'}
+  ],
+  nickname: [
+    {required: true, message: t('login.nicknameRequired'), trigger: 'blur'},
+    {max: 10, message: t('login.nicknameFormatInvalid'), trigger: 'blur'}
+  ],
+  password: [
+    {required: true, message: t('login.passwordRequired'), trigger: 'blur'},
+    {
+      pattern: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#%^&*()_+\-=.,])[a-zA-Z0-9~!@#%^&*()_+\-=.,]{8,20}$/,
+      message: t('login.passwordFormatInvalid'),
+      trigger: 'blur'
+    }
+  ],
+  confirmPassword: [
+    {required: true, validator: validateConfirmPassword, trigger: 'blur'}
+  ]
 }))
 
 watch(locale, async () => {

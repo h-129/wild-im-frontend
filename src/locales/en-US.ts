@@ -21,12 +21,18 @@ export default {
         goToRegister: 'Sign up',
         hasAccount: 'Already have an account?',
         goToLogin: 'Sign in',
-        // —— 新增的校验提示国际化 ——
-        usernameRequired: 'Please input username',
-        usernameLength: 'Username must be 4 to 20 characters',
-        usernamePattern: 'Only letters, numbers and underscores are allowed',
-        passwordRequired: 'Please input password',
-        passwordLength: 'Password must be 6 to 32 characters',
-        passwordNoChinese: 'Password cannot contain Chinese characters',
+        // —— 基础必填校验提示 ——
+        usernameRequired: 'Please enter your username',
+        passwordRequired: 'Please enter your password',
+        nicknamePlaceholder: 'Please enter your nickname',
+        nicknameRequired: 'Nickname is required',
+        confirmPasswordPlaceholder: 'Please confirm your password',
+        confirmPasswordRequired: 'Please confirm your password',
+        passwordNotMatch: 'The two passwords do not match!',
+
+        // —— 新增的严格格式校验提示 ——
+        usernameFormatInvalid: 'Username must be 6-16 alphanumeric characters',
+        nicknameFormatInvalid: 'Nickname cannot exceed 10 characters',
+        passwordFormatInvalid: 'Password must be 8-20 characters, including letters, numbers, and special characters',
     },
 } as const

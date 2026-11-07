@@ -53,11 +53,16 @@
 import {UserOutlined, LockOutlined} from '@ant-design/icons-vue'
 import type {Rule} from 'ant-design-vue/es/form'
 import {useAppLocale} from '@/hooks/useAppLocale'
+import type {LoginRequest} from "@/types/auth";
 
 const {t, locale} = useAppLocale()
 const formRef = ref()
 
-const formState = reactive({username: '', password: '', remember: false})
+const initData: LoginRequest = {
+  username: '',
+  password: '',
+}
+const formState = reactive(initData)
 
 const handleUsernameInput = (e: Event) => formState.username = (e.target as HTMLInputElement).value.replace(/[^a-zA-Z0-9_]/g, '')
 const handlePasswordInput = (e: Event) => formState.password = (e.target as HTMLInputElement).value.replace(/[\u4e00-\u9fa5\u3000-\u301f\uff00-\uffef\s]/g, '')
