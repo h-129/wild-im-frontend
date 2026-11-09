@@ -4,6 +4,7 @@
 export interface LoginRequest {
     username: string;
     password: string;
+    remember: boolean;
 }
 
 /**
@@ -20,6 +21,6 @@ export interface RegisterRequest {
  * 登录响应参数
  */
 export interface LoginResponse {
-    access_token: string;
-    refresh_token: string;
+    accessToken: string;
+    refreshToken: string;
 }

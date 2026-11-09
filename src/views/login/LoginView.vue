@@ -54,16 +54,28 @@ import {UserOutlined, LockOutlined} from '@ant-design/icons-vue'
 import type {Rule} from 'ant-design-vue/es/form'
 import {useAppLocale} from '@/hooks/useAppLocale'
 import type {LoginRequest} from "@/types/auth";
+import {userLogin} from "@/api/user";
+import {message} from "ant-design-vue";
+import {useStorage} from "@vueuse/core";
+import {CacheConstant} from "@/constants";
+import {useUserStore} from "@/store";
 
+const userStore = useUserStore()
 const {t, locale} = useAppLocale()
-const formRef = ref()
+const formRef = ref(null)
 
 const initData: LoginRequest = {
+  username: 'admin1234',
+  password: 'a12345678..',
+  remember: false,
+}
+const formState = reactive({...initData})
+//定义本地缓存
+const loginCache = useStorage(CacheConstant.REMEMBER_LOGIN_CACHE_KEY, {
   username: '',
   password: '',
-}
-const formState = reactive(initData)
-
+  remember: false
+})
 const handleUsernameInput = (e: Event) => formState.username = (e.target as HTMLInputElement).value.replace(/[^a-zA-Z0-9_]/g, '')
 const handlePasswordInput = (e: Event) => formState.password = (e.target as HTMLInputElement).value.replace(/[\u4e00-\u9fa5\u3000-\u301f\uff00-\uffef\s]/g, '')
 
@@ -78,8 +90,43 @@ watch(locale, async () => {
   })
 })
 
-const onFinish = (values: any) => console.log('Login Params:', values)
+//触发登录提交
+const onFinish = async (values: LoginRequest) => {
+  try {
+    console.log(values)
+    const {data} = await userLogin({
+      username: values.username,
+      password: values.password,
+    } as LoginRequest)
+    //使用pinia存储后端传递过来的token
+    userStore.setToken(data.accessToken)
+    message.info("登录成功")
+    // 前端独立处理记住我缓存
+    if (formState.remember) {
+      loginCache.value = {
+        username: values.username,
+        password: window.btoa(values.password), // btoa 简单混淆密文
+        remember: true
+      }
+    } else {
+      // 未勾选则清空缓存对象
+      loginCache.value = {username: '', password: '', remember: false}
+    }
+    //进行页面跳转
+  } catch (e) {
+    message.error(e.message || "登录失败")
+  }
+}
 const handleForgot = () => console.log('Forgot pwd triggered')
+// 页面挂载时回填数据
+onMounted(() => {
+  if (loginCache.value.remember) {
+    formState.username = loginCache.value.username
+    // 用 atob 解码 Base64 还原为明文密码
+    formState.password = window.atob(loginCache.value.password)
+    formState.remember = true
+  }
+})
 </script>
 
 <style lang="scss" scoped>
