@@ -72,14 +72,16 @@ import {UserOutlined, LockOutlined, IdcardOutlined} from '@ant-design/icons-vue'
 import type {Rule} from 'ant-design-vue/es/form'
 import {useAppLocale} from '@/hooks/useAppLocale'
 import type {RegisterRequest} from "@/types/auth";
+import {userRegister} from "@/api/user";
+import {message} from "ant-design-vue";
 
 const {t, locale} = useAppLocale()
 const formRef = ref()
 const initData: RegisterRequest = {
-  username: '',
-  nickname: '',
-  password: '',
-  confirmPassword: ''
+  username: 'admin1234',
+  nickname: '萌萌',
+  password: 'a12345678..',
+  confirmPassword: 'a12345678..'
 }
 // 1. 扩充表单状态
 const formState = reactive(initData)
@@ -126,8 +128,15 @@ watch(locale, async () => {
   if (formRef.value) formRef.value.validateFields().catch(() => {
   })
 })
-
-const onFinish = (values: any) => console.log('Register Params:', values)
+//触发注册提交
+const onFinish = async (values: RegisterRequest) => {
+  try {
+    await userRegister(values)
+    message.info("注册成功")
+  } catch (e) {
+    message.error(e.message || "注册失败")
+  }
+}
 </script>
 
 <style lang="scss" scoped>
