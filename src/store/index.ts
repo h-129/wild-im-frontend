@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {CacheConstant} from "@/constants";
-import {expireStorage} from "@/utils/storage";
 
 export const useUserStore = defineStore("useUserStore", {
     state: () => {
@@ -16,12 +15,15 @@ export const useUserStore = defineStore("useUserStore", {
     actions: {
         setToken(token: string) {
             this.token = token;
+        },
+        clearToken() {
+            this.token = '';
         }
     },
     // 开启持久化
     persist: {
         key: CacheConstant.TOKEN_CACHE_KEY,
-        storage: expireStorage,
+        storage: localStorage,
         pick: ['token']
     }
 })
