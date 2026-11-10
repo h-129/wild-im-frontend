@@ -33,6 +33,7 @@
 
       <a-form-item class="pt-2 mb-0">
         <a-button
+            :loading="loading"
             class="w-full h-10 rounded-lg bg-neutral-900 border-none hover:bg-neutral-800 active:bg-neutral-950 text-white font-light text-xs transition-all shadow-sm"
             html-type="submit" type="primary">
           {{ $t("login.signIn") }}
@@ -63,7 +64,8 @@ import {useUserStore} from "@/store";
 const userStore = useUserStore()
 const {t, locale} = useAppLocale()
 const formRef = ref(null)
-
+//定义登录按钮的状态防止重复提交
+const loading = ref<boolean>(false)
 const initData: LoginRequest = {
   username: 'admin1234',
   password: 'a12345678..',
@@ -89,11 +91,17 @@ watch(locale, async () => {
   if (formRef.value) formRef.value.validateFields().catch(() => {
   })
 })
-
+//模拟延时
+const sleep = (time: number) => new Promise((resolve) => {
+  setTimeout(resolve, time)
+})
 //触发登录提交
 const onFinish = async (values: LoginRequest) => {
+  loading.value = true
   try {
     console.log(values)
+    // 如果是模拟测试，可以加上这一句感受 1.5 秒的 loading 效果：
+    // await sleep(1500)
     const {data} = await userLogin({
       username: values.username,
       password: values.password,
@@ -115,6 +123,8 @@ const onFinish = async (values: LoginRequest) => {
     //进行页面跳转
   } catch (e) {
     message.error(e.message || "登录失败")
+  } finally {
+    loading.value = false
   }
 }
 const handleForgot = () => console.log('Forgot pwd triggered')
