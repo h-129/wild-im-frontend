@@ -1,6 +1,6 @@
 <template>
-  <svg aria-hidden="true" class="svg-icon">
-    <use :fill="color" :href="symbolId"/>
+  <svg :style="{ color: color }" aria-hidden="true" class="svg-icon">
+    <use :href="symbolId"/>
   </svg>
 </template>
 <script lang="ts" setup>
