@@ -1,11 +1,30 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
-import Index from '@/views/index.vue'
 import Error from '@/views/error/index.vue'
+import Main from '@/layout/main/index.vue'
+import Chat from '@/views/chat/index.vue'
+import Contact from '@/views/contact/index.vue'
 
 const routes = [
     {
         path: '/',
-        component: Index,
+        component: Main,
+        redirect: '/chat/index',
+        children: [
+            {
+                path: '/chat/index',
+                component: Chat,
+                meta: {
+                    title: '聊天'
+                }
+            },
+            {
+                path: '/contact/index',
+                component: Contact,
+                meta: {
+                    title: '联系人'
+                }
+            }
+        ]
     }, {
         path: '/auth',
         name: 'Auth',
