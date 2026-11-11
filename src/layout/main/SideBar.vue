@@ -13,7 +13,7 @@
     </div>
     <!--    底部-->
     <div class="footer">
-      <SvgIcon color="#ffffff" name="icon-exit"/>
+      <SvgIcon class="footer-icon" color="#ffffff" name="icon-exit"/>
     </div>
   </div>
 </template>
@@ -81,6 +81,7 @@ const handleNavTo: void = (to: string) => {
 
         &:hover {
           transform: scale(1.1);
+          transition: transform 0.5s;
         }
       }
     }
@@ -104,6 +105,15 @@ const handleNavTo: void = (to: string) => {
     align-items: center;
     margin-bottom: 10px;
     font-size: 32px;
+
+    .footer-icon {
+      transform: rotate(180deg); //将图标进行旋转
+      transition: transform 0.5s;
+
+      &:hover {
+        transform: rotate(180deg) scale(1.1); //图片放大效果
+      }
+    }
   }
 
 }
