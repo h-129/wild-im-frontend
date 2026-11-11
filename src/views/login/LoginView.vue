@@ -60,7 +60,9 @@ import {message} from "ant-design-vue";
 import {useStorage} from "@vueuse/core";
 import {CacheConstant} from "@/constants";
 import {useUserStore} from "@/store";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const userStore = useUserStore()
 const {t, locale} = useAppLocale()
 const formRef = ref(null)
@@ -110,6 +112,9 @@ const onFinish = async (values: LoginRequest) => {
     userStore.setToken(data.accessToken)
     message.info("登录成功")
     // 前端独立处理记住我缓存
+    router.push({
+      path: '/'
+    })
     if (formState.remember) {
       loginCache.value = {
         username: values.username,
@@ -149,7 +154,7 @@ onMounted(() => {
     box-shadow: none !important;
     padding-bottom: 6px !important;
     font-size: 14px;
-    color: #171717;
+    color: #262626;
 
     &::placeholder {
       color: #a3a3a3;
