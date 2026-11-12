@@ -34,6 +34,23 @@ import SideBar from "@/layout/main/SideBar.vue";
     display: flex;
     flex-direction: row;
     justify-content: start;
+    //设备响应式布局
+    @media (min-width: 1300px) and (max-width: 1600px) {
+      width: 85%;
+      height: 90%;
+    }
+    @media (min-width: 1601px) and (max-width: 1919px) {
+      width: 1200px;
+      height: 90%;
+    }
+    @media (min-width: 1920px) and (max-width: 2559px) {
+      width: 1500px;
+      height: 90%;
+    }
+    @media (min-width: 2560px) {
+      width: 1650px;
+      height: 90%;
+    }
   }
 }
 </style>
