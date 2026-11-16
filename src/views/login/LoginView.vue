@@ -110,7 +110,7 @@ const onFinish = async (values: LoginRequest) => {
     } as LoginRequest)
     //使用pinia存储后端传递过来的token
     userStore.setToken(data.accessToken)
-    message.info("登录成功")
+    message.success("登录成功")
     await userStore.fetchUserInfo()
     // 前端独立处理记住我缓存
     if (formState.remember) {

@@ -13,7 +13,16 @@
     </div>
     <!--    底部-->
     <div class="footer">
-      <SvgIcon class="footer-icon" color="#ffffff" name="icon-exit"/>
+      <!--      确认框-->
+      <a-popconfirm
+          cancel-text="取消"
+          ok-text="确认"
+          title="确定退出登录吗？"
+          @cancel="cancel"
+          @confirm="confirm"
+      >
+        <SvgIcon class="footer-icon" color="#ffffff" name="icon-exit"/>
+      </a-popconfirm>
     </div>
   </div>
 </template>
@@ -25,6 +34,8 @@ import Chat from '@/assets/raw-icon/chat.svg'
 import ChatFill from '@/assets/raw-icon/chat-fill.svg'
 import Contact from '@/assets/raw-icon/contact.svg'
 import ContactFill from '@/assets/raw-icon/contact-fill.svg'
+import {message} from 'ant-design-vue';
+import {useUserStore} from "@/store";
 
 interface menuType {
   name: string,
@@ -35,6 +46,7 @@ interface menuType {
 
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
 //菜单数据
 const menuList: menuType[] = [
   {
@@ -55,6 +67,19 @@ const handleNavTo: void = (to: string) => {
     path: to
   })
 }
+
+//确认框确认事件
+const confirm = () => {
+  userStore.clear()
+  router.push({
+    path: '/auth/login',
+  })
+  message.success('退出登录成功');
+};
+//确认框取消事件
+const cancel = () => {
+  message.error('已取消');
+};
 </script>
 <style lang="scss" scoped>
 #side-bar-container {
