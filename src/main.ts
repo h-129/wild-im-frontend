@@ -8,6 +8,8 @@ import {setup as setupPlugins} from './plugins/index'
 import {createPinia} from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import i18n from './locales' //引入i18n实例
+import "nprogress/nprogress.css"
+import './permission'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)

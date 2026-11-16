@@ -1,23 +1,42 @@
 import {defineStore} from "pinia";
 import {CacheConstant} from "@/constants";
+import {userInfo} from "@/api/user";
 
 export const useUserStore = defineStore("useUserStore", {
     state: () => {
         return {
             token: '',
+            userInfo: null
         }
     },
     getters: {
         getToken(state) {
             return state.token;
+        },
+        getUserInfo(state) {
+            return state.userInfo;
         }
     },
     actions: {
         setToken(token: string) {
             this.token = token;
         },
-        clearToken() {
+        setUserInfo(userInfo) {
+            this.userInfo = userInfo;
+        },
+        //获取用户信息
+        async fetchUserInfo() {
+            try {
+                const {data} = await userInfo();
+                this.setUserInfo(data);
+            } catch (e) {
+                throw new Error(e.message || '获取用户信息失败');
+            }
+        }
+        ,
+        clear() {
             this.token = '';
+            this.userInfo = null;
         }
     },
     // 开启持久化

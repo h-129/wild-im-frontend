@@ -111,10 +111,8 @@ const onFinish = async (values: LoginRequest) => {
     //使用pinia存储后端传递过来的token
     userStore.setToken(data.accessToken)
     message.info("登录成功")
+    await userStore.fetchUserInfo()
     // 前端独立处理记住我缓存
-    router.push({
-      path: '/'
-    })
     if (formState.remember) {
       loginCache.value = {
         username: values.username,
@@ -126,6 +124,9 @@ const onFinish = async (values: LoginRequest) => {
       loginCache.value = {username: '', password: '', remember: false}
     }
     //进行页面跳转
+    router.push({
+      path: '/'
+    })
   } catch (e) {
     message.error(e.message || "登录失败")
   } finally {
