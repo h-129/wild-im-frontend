@@ -4,6 +4,8 @@
 export const CacheConstant = {
     //token缓存key
     TOKEN_CACHE_KEY: "ACCESS_TOKEN_KEY",
+    //token请求头前缀
+    TOKEN_HEADER_PREFIX: "Bearer ",
     //token缓存过期时间，5小时
     TOKEN_CACHE_EXPIRE_TIME: 60 * 60 * 5 * 1000,
     // 语言缓存 key
