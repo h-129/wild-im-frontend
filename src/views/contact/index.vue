@@ -1,7 +1,7 @@
 <template>
   <div id="contact-container">
     <div class="left">
-
+      <ContactList/>
     </div>
     <div :style="{backgroundImage: `url(${Bg})`}" class="right">
 
@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import Bg from "@/assets/background/bg-contact.jpg"
+import Bg from "@/assets/background/bg-contact.png"
 </script>
 <style lang="scss" scoped>
 #contact-container {
@@ -39,7 +39,7 @@ import Bg from "@/assets/background/bg-contact.jpg"
       width: 100%;
       height: 100%;
     }
-    
+
     .right {
       display: none;
     }
