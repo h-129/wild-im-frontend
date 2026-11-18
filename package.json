@@ -23,6 +23,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^4.1.0",
     "pinia-plugin-persistedstate": "^4.7.1",
+    "pinyin-pro": "^3.29.5",
     "sass": "^1.107.1",
     "tailwindcss": "^4.3.4",
     "vue": "^3.5.44",
