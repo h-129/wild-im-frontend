@@ -8,7 +8,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import Bg from '@/assets/background/home-insspirito-abstract.png'
+import Bg from '@/assets/background/bg-main.png'
 import SideBar from "@/layout/main/SideBar.vue";
 </script>
 <style lang="scss" scoped>
