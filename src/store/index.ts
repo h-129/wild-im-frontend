@@ -1,19 +1,20 @@
 import {defineStore} from "pinia";
 import {CacheConstant} from "@/constants";
 import {userInfo} from "@/api/user";
+import type {UserInfo} from "@/api/user";
 
 export const useUserStore = defineStore("useUserStore", {
     state: () => {
         return {
             token: '',
-            userInfo: null
+            userInfo: null as UserInfo | null,
         }
     },
     getters: {
         getToken(state) {
             return state.token;
         },
-        getUserInfo(state) {
+        getUserInfo(state): UserInfo | null {
             return state.userInfo;
         }
     },
@@ -21,7 +22,7 @@ export const useUserStore = defineStore("useUserStore", {
         setToken(token: string) {
             this.token = token;
         },
-        setUserInfo(userInfo) {
+        setUserInfo(userInfo: UserInfo | null) {
             this.userInfo = userInfo;
         },
         //获取用户信息
@@ -29,7 +30,7 @@ export const useUserStore = defineStore("useUserStore", {
             try {
                 const {data} = await userInfo();
                 this.setUserInfo(data);
-            } catch (e) {
+            } catch (e: any) {
                 throw new Error(e.message || '获取用户信息失败');
             }
         }

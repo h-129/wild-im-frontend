@@ -4,7 +4,7 @@
     <div class="header">
       <!--      头像-->
       <div class="avatar-wrapper flex justify-center items-center">
-        <a-avatar :src="avatar" alt="图片加载失败..."/>
+        <a-avatar :src="avatarUrl" alt="图片加载失败..."/>
       </div>
       <!--      菜单-->
       <div v-for="(item, index) in menuList" :key="index" class="menu" @click="handleNavTo(item.path)">
@@ -47,6 +47,9 @@ interface menuType {
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
+const avatarUrl = computed(() => {
+  return userStore.getUserInfo.avatar ?? avatar;
+})
 //菜单数据
 const menuList: menuType[] = [
   {
