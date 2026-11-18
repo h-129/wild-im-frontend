@@ -21,7 +21,7 @@
           @cancel="cancel"
           @confirm="confirm"
       >
-        <SvgIcon class="footer-icon" color="#ffffff" name="icon-exit"/>
+        <LoginOutlined style="color:#ffffff"/>
       </a-popconfirm>
     </div>
   </div>
@@ -36,6 +36,7 @@ import Contact from '@/assets/raw-icon/contact.svg'
 import ContactFill from '@/assets/raw-icon/contact-fill.svg'
 import {message} from 'ant-design-vue';
 import {useUserStore} from "@/store";
+import {LoginOutlined} from "@ant-design/icons-vue";
 
 interface menuType {
   name: string,
@@ -81,7 +82,7 @@ const confirm = () => {
 };
 //确认框取消事件
 const cancel = () => {
-  message.error('已取消');
+  message.info('已取消');
 };
 </script>
 <style lang="scss" scoped>
@@ -133,15 +134,6 @@ const cancel = () => {
     align-items: center;
     margin-bottom: 10px;
     font-size: 32px;
-
-    .footer-icon {
-      transform: rotate(180deg); //将图标进行旋转
-      transition: transform 0.5s;
-
-      &:hover {
-        transform: rotate(180deg) scale(1.1); //图片放大效果
-      }
-    }
   }
 
 }
