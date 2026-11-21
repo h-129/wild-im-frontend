@@ -5,11 +5,12 @@
     </div>
     <div :style="{backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)), url(${Bg})`}"
          class="right">
-
+      <router-view/>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import ContactList from "@/views/contact/ContactList.vue";
 import Bg from "@/assets/background/bg-contact.png"
 </script>
 <style lang="scss" scoped>

@@ -38,6 +38,7 @@
                   v-for="contact in contacts"
                   :key="contact.id"
                   class="contact-item"
+                  @click="navToDetail(contact.id,ContactTargetType.FRIEND)"
               >
                 <div class="contact-avatar">
                   <img :src="contact.contactAvatar || avatarUrl" alt="头像"/>
@@ -75,6 +76,7 @@
                   v-for="group in groups"
                   :key="group.id"
                   class="contact-item"
+                  @click="navToDetail(group.id,ContactTargetType.GROUP)"
               >
                 <div class="contact-avatar">
                   <img :src="group.groupAvatar || avatarUrl" alt="群头像"/>
@@ -96,11 +98,15 @@ import userDefaultAvatar from "@/assets/avatar/user-default.jpg"
 import {PlusOutlined, RightOutlined} from "@ant-design/icons-vue";
 import {pinyin} from "pinyin-pro";
 import groupDefaultAvatar from '@/assets/avatar/group-default.jpg'
+import {useRouter} from "vue-router";
+import {ContactTargetType} from "@/enums/contactEnum";
+
 //标记箭头激活状态
 const contactAct = ref<boolean>(false);
 const groupAct = ref<boolean>(false);
+const router = useRouter();
 
-interface contactItemType {
+interface ContactItemType {
   id: number,
   contactUserId: number,
   contactNickname: string,
@@ -212,15 +218,23 @@ const groupByPinyin = <T>(
   });
 };
 // 联系人分组结果
-const contactGroups = computed(() =>
+const contactGroups = computed<ContactItemType>(() =>
     groupByPinyin(mockContactList, (item) => item.contactRemark || item.contactNickname)
 );
 
 // 群组分组结果
-const groupChatGroups = computed(() =>
+const groupChatGroups = computed<GroupItemType>(() =>
     groupByPinyin(mockGroupList, (item) => item.groupName)
 );
-console.log("排序后的name", getContact());
+const navToDetail = (id: number, type?: ContactTargetType) => {
+  router.push({
+    path: '/contact/index/detail',
+    query: {
+      id: id,
+      type: type,
+    }
+  })
+}
 </script>
 <style lang="scss" scoped>
 #contact-list-container {

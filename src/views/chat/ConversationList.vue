@@ -1,5 +1,5 @@
 <template>
-  <div id="chat-list-container">
+  <div id="conversation-list-container">
     <!-- 工具区域 -->
     <div class="toolbar">
       <div class="search-box">
@@ -65,9 +65,10 @@ import {ConversationType} from "@/enums/conversationEnum";
 import {MessageType} from "@/enums/messageEnum";
 import type {ConversationItem, LastMessage} from "@/types/conversation";
 import {useConversationList} from "@/hooks/useConversation";
+import {useRouter} from "vue-router";
 
 const {keyword, conversationList, clearUnread} = useConversationList();
-
+const router = useRouter();
 // 格式化最近一条消息摘要
 const formatLastMessage = (
     convType: ConversationType | undefined,
@@ -105,17 +106,30 @@ const formatLastMessage = (
   }
   return text;
 };
-
+//实现点击会话切换聊天窗口或系统通知详情面板的功能
+const navToDetail = ({id, type}: {
+  id: number;
+  type?: ConversationType;
+}) => {
+  router.push({
+    path: "/chat/index/detail",
+    query: {
+      id: id,
+      type: type,
+    }
+  });
+}
 // 处理选中的会话
 const handleSelectConversation = (item: ConversationItem) => {
   //清空未读
   clearUnread(item.id);
   // 后续在这里切换右侧聊天窗口或系统通知详情面板
+  navToDetail(item)
 };
 </script>
 
 <style lang="scss" scoped>
-#chat-list-container {
+#conversation-list-container {
   width: 100%;
   height: 100%;
   display: flex;

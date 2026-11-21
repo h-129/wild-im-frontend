@@ -1,21 +1,20 @@
 <template>
-  <div id="chat-container">
+  <div id="conversation-container">
     <div class="left">
-      <ChatList/>
+      <ConversationList/>
     </div>
     <div :style="{backgroundImage:`linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)), url(${Bg})`}"
          class="right">
-
+      <router-view/>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-
-import ChatList from "@/components/chat/ChatList.vue";
+import ConversationList from "@/views/chat/ConversationList.vue";
 import Bg from '@/assets/background/bg-chat.jpg'
 </script>
 <style lang="scss" scoped>
-#chat-container {
+#conversation-container {
   display: flex;
   height: 100%;
   flex: 1;
