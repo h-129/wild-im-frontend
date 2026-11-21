@@ -42,10 +42,13 @@
             </div>
             <!-- 最近的一条消息 -->
             <div class="last-message">
-              <span>{{ item.lastMessage }}</span>
+              <span>{{ formatLastMessage(item.type, item.lastMessage) }}</span>
             </div>
-            <div v-if="item.unreadCount" class="unread-count">
-              {{ item.unreadCount }}
+            <div
+                v-if="item.unreadCount && item.unreadCount > 0"
+                class="unread-count"
+            >
+              {{ item.unreadCount > 99 ? "99+" : item.unreadCount }}
             </div>
           </div>
         </div>
@@ -59,11 +62,51 @@ import {PlusOutlined} from "@ant-design/icons-vue";
 import IconNotice from "@/assets/raw-icon/notice.svg";
 import avatarDefault from "@/assets/avatar/user-default.jpg";
 import {ConversationType} from "@/enums/conversationEnum";
-import type {ConversationItem} from "@/types/conversation";
+import {MessageType} from "@/enums/messageEnum";
+import type {ConversationItem, LastMessage} from "@/types/conversation";
 import {useConversationList} from "@/hooks/useConversation";
 
-const {keyword, conversationList, clearUnread, removerConversation} = useConversationList();
-//处理选中的会话
+const {keyword, conversationList, clearUnread} = useConversationList();
+
+// 格式化最近一条消息摘要
+const formatLastMessage = (
+    convType: ConversationType | undefined,
+    msg?: LastMessage
+): string => {
+  if (!msg) return "";
+
+  let text = "";
+  switch (msg.type) {
+    case MessageType.TEXT:
+      text = msg.content ?? "";
+      break;
+    case MessageType.IMAGE:
+      text = "[图片]";
+      break;
+    case MessageType.VOICE:
+      text = msg.duration ? `[语音 ${msg.duration}"]` : "[语音]";
+      break;
+    case MessageType.VIDEO:
+      text = msg.duration ? `[视频 ${msg.duration}"]` : "[视频]";
+      break;
+    case MessageType.FILE:
+      text = msg.fileName ? `[文件] ${msg.fileName}` : "[文件]";
+      break;
+    case MessageType.WITHDRAW:
+      return msg.senderName
+          ? `${msg.senderName} 撤回了一条消息`
+          : "撤回了一条消息";
+    default:
+      text = msg.content ?? "";
+  }
+
+  if (convType === ConversationType.GROUP && msg.senderName && text) {
+    return `${msg.senderName}：${text}`;
+  }
+  return text;
+};
+
+// 处理选中的会话
 const handleSelectConversation = (item: ConversationItem) => {
   //清空未读
   clearUnread(item.id);
@@ -137,7 +180,7 @@ const handleSelectConversation = (item: ConversationItem) => {
         }
 
         .left {
-          flex-shrink: 0; //防止flex布局下被挤压
+          flex-shrink: 0; // 防止 flex 布局下被挤压
 
           img {
             display: block;

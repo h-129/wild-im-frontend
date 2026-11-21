@@ -1,5 +1,6 @@
 import type {ConversationItem} from "@/types/conversation";
 import {ConversationType} from "@/enums/conversationEnum";
+import {MessageType} from "@/enums/messageEnum";
 
 // 提升为模块级共享状态
 const keyword = ref<string>("");
@@ -8,7 +9,10 @@ const conversations = ref<ConversationItem[]>([
         id: 1,
         name: "系统消息",
         type: ConversationType.SYSTEM,
-        lastMessage: "你有一条新的好友申请待处理",
+        lastMessage: {
+            type: MessageType.TEXT,
+            content: "你有一条新的好友申请待处理",
+        },
         lastTime: "20:08",
         unreadCount: 2,
     },
@@ -16,7 +20,10 @@ const conversations = ref<ConversationItem[]>([
         id: 1001,
         name: "萌萌",
         type: ConversationType.PRIVATE,
-        lastMessage: "是瑞萌萌耶ovo",
+        lastMessage: {
+            type: MessageType.TEXT,
+            content: "是瑞萌萌耶ovo",
+        },
         lastTime: "20:05",
         unreadCount: 9,
     },
@@ -24,7 +31,11 @@ const conversations = ref<ConversationItem[]>([
         id: 1002,
         name: "前端交流群",
         type: ConversationType.GROUP,
-        lastMessage: "张三：有人遇到过 Vite 热更新失效吗？",
+        lastMessage: {
+            type: MessageType.TEXT,
+            senderName: "张三",
+            content: "有人遇到过 Vite 热更新失效吗？",
+        },
         lastTime: "19:42",
         unreadCount: 15,
     },
@@ -32,7 +43,10 @@ const conversations = ref<ConversationItem[]>([
         id: 1003,
         name: "林深",
         type: ConversationType.PRIVATE,
-        lastMessage: "好的，明早九点半会议室见",
+        lastMessage: {
+            type: MessageType.TEXT,
+            content: "好的，明早九点半会议室见",
+        },
         lastTime: "昨天",
         unreadCount: 0,
     },
@@ -40,9 +54,47 @@ const conversations = ref<ConversationItem[]>([
         id: 1004,
         name: "产品需求评审组",
         type: ConversationType.GROUP,
-        lastMessage: "李四：最新原型图已经同步到群文件了",
+        lastMessage: {
+            type: MessageType.TEXT,
+            senderName: "李四",
+            content: "最新原型图已经同步到群文件了",
+        },
         lastTime: "星期三",
         unreadCount: 1,
+    },
+    {
+        id: 1005,
+        name: "设计群",
+        type: ConversationType.GROUP,
+        lastMessage: {
+            type: MessageType.IMAGE,
+            senderName: "王五",
+        },
+        lastTime: "18:20",
+        unreadCount: 3,
+    },
+    {
+        id: 1006,
+        name: "阿杰",
+        type: ConversationType.PRIVATE,
+        lastMessage: {
+            type: MessageType.VOICE,
+            duration: 12,
+        },
+        lastTime: "17:05",
+        unreadCount: 0,
+    },
+    {
+        id: 1007,
+        name: "后端研发组",
+        type: ConversationType.GROUP,
+        lastMessage: {
+            type: MessageType.FILE,
+            senderName: "赵六",
+            fileName: "IM接口文档v1.2.md",
+        },
+        lastTime: "前天",
+        unreadCount: 0,
     },
 ]);
 

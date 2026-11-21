@@ -1,5 +1,8 @@
+/**
+ * 会话类型
+ */
 export enum ConversationType {
-    SYSTEM = 'system',
-    PRIVATE = 'private',
-    GROUP = 'group'
+    SYSTEM = 'SYSTEM',
+    PRIVATE = 'PRIVATE',
+    GROUP = 'GROUP'
 }
