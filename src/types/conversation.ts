@@ -1,4 +1,4 @@
-import {ConversationType} from "@/enums/ConversationEnum";
+import {ConversationType} from "@/enums/conversationEnum";
 
 export interface ConversationItem {
     id: number,
