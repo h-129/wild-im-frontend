@@ -3,7 +3,8 @@
     <div class="left">
       <ContactList/>
     </div>
-    <div :style="{backgroundImage: `url(${Bg})`}" class="right">
+    <div :style="{backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)), url(${Bg})`}"
+         class="right">
 
     </div>
   </div>
@@ -20,9 +21,8 @@ import Bg from "@/assets/background/bg-contact.png"
 
   .left {
     width: clamp(240px, 25%, 324px);
-    background: #EEDFC7;
+    background: #efefef;
     flex-shrink: 0; //锁定左侧固定宽度
-    border-right: 1px solid #EEDFC7;
   }
 
   .right {

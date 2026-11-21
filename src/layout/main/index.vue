@@ -30,7 +30,6 @@ import SideBar from "@/layout/main/SideBar.vue";
     border-radius: 5px;
     overflow: hidden;
     background-color: #f5f5f5;
-    border: 1px dashed #F4BAA3;
     display: flex;
     flex-direction: row;
     justify-content: start;

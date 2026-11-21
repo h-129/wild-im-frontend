@@ -27,7 +27,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import avatar from '@/assets/avatar/qute.jpg'
+import avatar from '@/assets/avatar/user-default.jpg'
 import {useRoute} from "vue-router";
 import {useRouter} from "vue-router";
 import Chat from '@/assets/raw-icon/chat.svg'
