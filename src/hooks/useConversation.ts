@@ -175,7 +175,7 @@ const removerConversation = (conversationId: ConversationItem["id"]) => {
     }
 };
 
-export function useConversationList() {
+export function useConversation() {
     return {
         keyword,
         conversations,

@@ -21,7 +21,6 @@ import SideBar from "@/layout/main/SideBar.vue";
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  cursor: pointer;
 
   .wrapper {
     width: 85%;

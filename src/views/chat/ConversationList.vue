@@ -64,10 +64,10 @@ import avatarDefault from "@/assets/avatar/user-default.jpg";
 import {ConversationType} from "@/enums/conversationEnum";
 import {MessageType} from "@/enums/messageEnum";
 import type {ConversationItem, LastMessage} from "@/types/conversation";
-import {useConversationList} from "@/hooks/useConversation";
+import {useConversation} from "@/hooks/useConversation";
 import {useRouter} from "vue-router";
 
-const {keyword, conversationList, clearUnread} = useConversationList();
+const {keyword, conversationList, clearUnread} = useConversation();
 const router = useRouter();
 // 格式化最近一条消息摘要
 const formatLastMessage = (
